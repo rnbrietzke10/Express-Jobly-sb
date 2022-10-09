@@ -35,7 +35,7 @@ class Jobs {
   /**
    * Gets all jobs
    *
-   * RETURNS [{title, salary, equity, companyHandle}]
+   * RETURNS [{ id,title, salary, equity, companyHandle}]
    */
 
   static async getAllJobs() {
@@ -44,6 +44,15 @@ class Jobs {
           FROM jobs`
     );
     return results.rows;
+  }
+
+  static async getJob(id) {
+    const results = await db.query(
+      `SELECT id, title, salary, equity, company_handle AS "companyHandle"
+          FROM jobs WHERE id=$1`,
+      [id]
+    );
+    return results.rows[0];
   }
 }
 

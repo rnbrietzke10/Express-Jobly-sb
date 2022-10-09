@@ -9,7 +9,8 @@ const { BadRequestError } = require('../expressError');
 const { ensureLoggedIn, isAdministrator } = require('../middleware/auth');
 const Job = require('../models/job');
 
-const jobNewSchema = require('../schemas/newJob.json');
+const jobNewSchema = require('../schemas/jobNew.json');
+const jobUpdateSchema = require('../schemas/jobUpdate.json');
 
 const router = new express.Router();
 
@@ -36,12 +37,35 @@ router.post('/', [ensureLoggedIn, isAdministrator], async (req, res, next) => {
   }
 });
 
+/**
+ * Gets all jobs
+ *
+ * RETURNS [{ id,title, salary, equity, companyHandle}]
+ * Authorization required: none
+ */
+
 router.get('/', async (req, res, next) => {
   try {
     const jobs = await Job.getAllJobs();
     return res.json(jobs);
   } catch (e) {
     next(e);
+  }
+});
+
+/** GET /[id]  =>  { job }
+ *
+ *  Jobs is { id, title, salary, equity }
+ *
+ * Authorization required: none
+ */
+
+router.get('/:id', async function (req, res, next) {
+  try {
+    const job = await Job.getJob(req.params.id);
+    return res.json({ job });
+  } catch (err) {
+    return next(err);
   }
 });
 

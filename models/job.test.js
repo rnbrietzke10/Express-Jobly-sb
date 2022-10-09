@@ -38,3 +38,32 @@ describe('create', function () {
     });
   });
 });
+
+describe('Get all Jobs', () => {
+  test('get all jobs function works', async () => {
+    const jobs = await Job.getAllJobs();
+    expect(jobs).toEqual([
+      {
+        id: 1,
+        title: 'J1',
+        salary: 100,
+        equity: '0.0',
+        companyHandle: 'c1',
+      },
+      {
+        id: 2,
+        title: 'J2',
+        salary: 100,
+        equity: '0.085',
+        companyHandle: 'c2',
+      },
+      {
+        id: 3,
+        title: 'J3',
+        salary: 100,
+        equity: '0.0',
+        companyHandle: 'c1',
+      },
+    ]);
+  });
+});
