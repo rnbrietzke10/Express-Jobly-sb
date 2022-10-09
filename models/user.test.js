@@ -233,5 +233,15 @@ describe('remove', function () {
 describe('apply', () => {
   test('works', async () => {
     const results = await User.apply('u1', 1);
+    expect(results.jobId).toEqual(1);
+  });
+
+  test('job not found', async function () {
+    try {
+      await User.apply('u1', 5050);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
   });
 });
