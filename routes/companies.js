@@ -11,8 +11,6 @@ const Company = require('../models/company');
 
 const companyNewSchema = require('../schemas/companyNew.json');
 const companyUpdateSchema = require('../schemas/companyUpdate.json');
-const { query } = require('express');
-const { filterCompanies } = require('../models/company');
 
 const router = new express.Router();
 
