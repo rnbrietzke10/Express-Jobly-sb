@@ -31,6 +31,20 @@ class Jobs {
 
     return job;
   }
+
+  /**
+   * Gets all jobs
+   *
+   * RETURNS [{title, salary, equity, companyHandle}]
+   */
+
+  static async getAllJobs() {
+    const results = await db.query(
+      `SELECT id, title, salary, equity, company_handle AS "companyHandle"
+          FROM jobs`
+    );
+    return results.rows;
+  }
 }
 
 module.exports = Jobs;

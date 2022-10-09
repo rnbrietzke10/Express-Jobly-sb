@@ -22,7 +22,7 @@ afterAll(commonAfterAll);
 /************************************** create */
 
 describe('create', function () {
-  test('works', async function () {
+  test('create new job', async function () {
     const newJob = {
       title: 'test',
       salary: 120000,
@@ -36,30 +36,5 @@ describe('create', function () {
       equity: '0.1',
       companyHandle: 'c1',
     });
-
-    //     const result = await db.query(
-    //       `SELECT handle, name, description, num_employees, logo_url
-    //            FROM companies
-    //            WHERE handle = 'new'`
-    //     );
-    //     expect(result.rows).toEqual([
-    //       {
-    //         handle: 'new',
-    //         name: 'New',
-    //         description: 'New Description',
-    //         num_employees: 1,
-    //         logo_url: 'http://new.img',
-    //       },
-    //     ]);
-    //   });
-
-    //   test('bad request with dupe', async function () {
-    //     try {
-    //       await Company.create(newCompany);
-    //       await Company.create(newCompany);
-    //       fail();
-    //     } catch (err) {
-    //       expect(err instanceof BadRequestError).toBeTruthy();
-    //     }
   });
 });
