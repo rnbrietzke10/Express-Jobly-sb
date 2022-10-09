@@ -229,7 +229,7 @@ describe('GET /companies/:handle', function () {
 /************************************** PATCH /companies/:handle */
 
 describe('PATCH /companies/:handle', function () {
-  test('works for users', async function () {
+  test('works for admin users', async function () {
     const resp = await request(app)
       .patch(`/companies/c1`)
       .send({

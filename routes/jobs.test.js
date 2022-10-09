@@ -15,6 +15,7 @@ const {
   u2Token,
   u4Token,
 } = require('./_testCommon');
+const { resource } = require('../app');
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
@@ -128,6 +129,49 @@ describe('GET /jobs/:id', () => {
 
   test('job not found with given id', async () => {
     const response = await request(app).get(`/jobs/200`);
+    expect(response.statusCode).toEqual(404);
+  });
+});
+
+/************************************** PATCH /jobs/:id */
+
+describe('PATCH /jobs/:id', () => {
+  test('works for admin authorized user', async () => {
+    const response = await request(app)
+      .patch(`/jobs/1`)
+      .send({ title: 'UpdatdedJob' })
+      .set('authorization', `Bearer ${u4Token}`);
+    expect(response.body).toEqual({
+      job: {
+        id: 1,
+        title: 'UpdatdedJob',
+        salary: 100,
+        equity: '0',
+        companyHandle: 'c1',
+      },
+    });
+  });
+
+  test('unauthorized for regular users', async () => {
+    const response = await request(app)
+      .patch(`/jobs/1`)
+      .send({ title: 'UpdatdedJob' })
+      .set('authorization', `Bearer ${u1Token}`);
+    expect(response.statusCode).toEqual(401);
+  });
+
+  test('unauthorized for anonymous user', async () => {
+    const response = await request(app)
+      .patch(`/jobs/1`)
+      .send({ title: 'UpdatdedJob' });
+    expect(response.statusCode).toEqual(401);
+  });
+
+  test('job not found', async () => {
+    const response = await request(app)
+      .patch('/jobs/200')
+      .send({ title: 'WontUpdate' })
+      .set('authorization', `Bearer ${u4Token}`);
     expect(response.statusCode).toEqual(404);
   });
 });
