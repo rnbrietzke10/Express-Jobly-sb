@@ -49,13 +49,13 @@ router.get('/', async (req, res, next) => {
     const jobs = await Job.getAllJobs();
     return res.json(jobs);
   } catch (e) {
-    next(e);
+    return next(e);
   }
 });
 
 /** GET /[id]  =>  { job }
  *
- *  Jobs is { id, title, salary, equity }
+ *  Jobs is { id, title, salary, equity, companyHandle }
  *
  * Authorization required: none
  */
@@ -68,5 +68,34 @@ router.get('/:id', async function (req, res, next) {
     return next(err);
   }
 });
+
+/** PATCH /[id]  =>  { job }
+ *
+ *  Patches job information
+ *
+ *  fields that can be updated: {  title, salary, equity }
+ *
+ * RETURNS job: { id, title, salary, equity, companyHandle }
+ *
+ * Authorization required: loggedIn and isAdmin
+ */
+
+router.patch(
+  '/:id',
+  [ensureLoggedIn, isAdministrator],
+  async (req, res, next) => {
+    try {
+      const validator = jsonschema.validate(req.body, jobUpdateSchema);
+      if (!validator.valid) {
+        const errs = validator.errors.map(e => e.stack);
+        throw new BadRequestError(errs);
+      }
+      const job = await Job.updateJob(req.params.id, req.body);
+      return res.json({ job });
+    } catch (e) {
+      return next(e);
+    }
+  }
+);
 
 module.exports = router;
