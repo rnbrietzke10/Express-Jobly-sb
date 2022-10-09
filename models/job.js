@@ -88,6 +88,23 @@ class Jobs {
 
     return results.rows[0];
   }
+
+  /** DELETES job with given id
+   *
+   * RETURNS  undefined
+   *
+   * Throws error if not found
+   */
+
+  static async deleteJob(id) {
+    const results = await db.query(
+      `DELETE FROM jobs WHERE id = $1 RETURNING id`,
+      [id]
+    );
+    if (!results.rows[0]) {
+      throw new NotFoundError(`No job found with id: ${id}`);
+    }
+  }
 }
 
 module.exports = Jobs;
