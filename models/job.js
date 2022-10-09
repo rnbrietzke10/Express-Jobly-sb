@@ -105,6 +105,34 @@ class Jobs {
       throw new NotFoundError(`No job found with id: ${id}`);
     }
   }
+
+  static filterJobs(queryStrings, jobs) {
+    /**Filters jobs based on query string properties of title, minSalary, and equaity. */
+    let filteredJobs = jobs;
+    let { title, minSalary, hasEquity } = queryStrings;
+    // filters if title contains given string.
+    if (title) {
+      filteredJobs = filteredJobs.filter(job => {
+        const jobTitle = job.title.toLowerCase();
+        return jobTitle.includes(title.toLowerCase());
+      });
+    }
+
+    // Filters for salaries greater than or equal to a given minSalary
+    if (minSalary) {
+      minSalary = parseInt(minSalary);
+      filteredJobs = filteredJobs.filter(job => {
+        return job.salary >= minSalary;
+      });
+    }
+    // Filters companies that do not have equity
+    if (hasEquity) {
+      filteredJobs = filteredJobs.filter(job => {
+        return parseFloat(job.equity) > 0;
+      });
+    }
+    return filteredJobs;
+  }
 }
 
 module.exports = Jobs;

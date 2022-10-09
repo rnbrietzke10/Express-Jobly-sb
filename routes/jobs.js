@@ -47,6 +47,8 @@ router.post('/', [ensureLoggedIn, isAdministrator], async (req, res, next) => {
 router.get('/', async (req, res, next) => {
   try {
     const jobs = await Job.getAllJobs();
+    const filtedJobs = await Job.filterJobs(req.query, jobs);
+    if (filtedJobs) return res.json({ jobs: filtedJobs });
     return res.json({ jobs });
   } catch (e) {
     return next(e);
