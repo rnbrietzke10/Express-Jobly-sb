@@ -43,6 +43,7 @@ class Jobs {
       `SELECT id, title, salary, equity, company_handle AS "companyHandle"
           FROM jobs`
     );
+
     return results.rows;
   }
 
@@ -52,6 +53,38 @@ class Jobs {
           FROM jobs WHERE id=$1`,
       [id]
     );
+    if (!results.rows[0]) throw new NotFoundError(`No job with id: ${id}`);
+
+    return results.rows[0];
+  }
+
+  /** UPDATE Job information with data given
+   *
+   * will only change the fields provided and will not change the id or company_handle
+   *
+   * Data can include: {title, salary, equity}
+   *
+   * RETURNS  {id, title, salary, equity, companyHandle}
+   *
+   * Throws error if not found
+   */
+
+  static async updateJob(id, data) {
+    const { setCols, values } = sqlForPartialUpdate(data, {
+      companyHandle: company_handle,
+    });
+    const idIdx = `$${values.length + 1}`;
+
+    const sqlQuery = `UPDATE jobs SET ${setCols}
+                      WHERE id=${idIdx}
+                      RETURNING id, title, salary, equity,
+                      company_handle AS companyHandle
+                      `;
+
+    const results = await db.query(sqlQuery, [...values, id]);
+
+    if (!results.rows[0]) throw new NotFoundError(`No job with id: ${id}`);
+
     return results.rows[0];
   }
 }

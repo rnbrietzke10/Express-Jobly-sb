@@ -83,4 +83,13 @@ describe('Get job by id', () => {
       companyHandle: 'c2',
     });
   });
+
+  test('not found if no job with given id', async function () {
+    try {
+      await Job.getJob(1000);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
 });
