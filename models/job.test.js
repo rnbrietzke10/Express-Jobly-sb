@@ -93,3 +93,28 @@ describe('Get job by id', () => {
     }
   });
 });
+
+/************************* Update job method */
+
+describe('Update job by id', () => {
+  test('works with valid id', async () => {
+    const updateData = { salary: 200 };
+    const job = await Job.updateJob(2, updateData);
+    expect(job).toEqual({
+      id: 2,
+      title: 'J2',
+      salary: 200,
+      equity: '0.085',
+      companyHandle: 'c2',
+    });
+  });
+
+  test('not found if no job with given id', async function () {
+    try {
+      await Job.getJob(1000);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});

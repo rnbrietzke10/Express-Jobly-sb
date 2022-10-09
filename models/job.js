@@ -78,12 +78,13 @@ class Jobs {
     const sqlQuery = `UPDATE jobs SET ${setCols}
                       WHERE id=${idIdx}
                       RETURNING id, title, salary, equity,
-                      company_handle AS companyHandle
+                      company_handle AS "companyHandle"
                       `;
 
     const results = await db.query(sqlQuery, [...values, id]);
 
     if (!results.rows[0]) throw new NotFoundError(`No job with id: ${id}`);
+    console.log(results.rows[0]);
 
     return results.rows[0];
   }
