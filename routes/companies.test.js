@@ -40,7 +40,7 @@ describe('POST /companies', function () {
       company: newCompany,
     });
   });
-  /****************Fix below for unauth user */
+
   test('unauth for user', async function () {
     const newCompany = {
       handle: 'new',

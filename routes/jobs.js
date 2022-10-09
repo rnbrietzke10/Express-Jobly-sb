@@ -31,7 +31,7 @@ router.post('/', [ensureLoggedIn, isAdministrator], async (req, res, next) => {
       throw new BadRequestError(errs);
     }
     const job = await Job.create(req.body);
-    return res.json({ job });
+    return res.status(201).json({ job });
   } catch (e) {
     return next(e);
   }
