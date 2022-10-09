@@ -55,7 +55,7 @@ describe('Get all Jobs', () => {
       {
         id: 2,
         title: 'J2',
-        salary: 100,
+        salary: 200,
         equity: '0.085',
         companyHandle: 'c2',
       },
@@ -70,6 +70,49 @@ describe('Get all Jobs', () => {
   });
 });
 
+describe('Test filterJobs method', () => {
+  test('filter by title', async () => {
+    let jobs = await Job.getAllJobs();
+    jobs = await Job.filterJobs({ title: 'J3' }, jobs);
+    expect(jobs).toEqual([
+      {
+        id: 3,
+        title: 'J3',
+        salary: 100,
+        equity: '0.0',
+        companyHandle: 'c1',
+      },
+    ]);
+  });
+
+  test('filter by salary', async () => {
+    let jobs = await Job.getAllJobs();
+    jobs = await Job.filterJobs({ minSalary: 150 }, jobs);
+    expect(jobs).toEqual([
+      {
+        id: 2,
+        title: 'J2',
+        salary: 200,
+        equity: '0.085',
+        companyHandle: 'c2',
+      },
+    ]);
+  });
+  test('filter by equity', async () => {
+    let jobs = await Job.getAllJobs();
+    jobs = await Job.filterJobs({ hasEquity: true }, jobs);
+    expect(jobs).toEqual([
+      {
+        id: 2,
+        title: 'J2',
+        salary: 200,
+        equity: '0.085',
+        companyHandle: 'c2',
+      },
+    ]);
+  });
+});
+
 /***********************get by id */
 
 describe('Get job by id', () => {
@@ -78,7 +121,7 @@ describe('Get job by id', () => {
     expect(job).toEqual({
       id: 2,
       title: 'J2',
-      salary: 100,
+      salary: 200,
       equity: '0.085',
       companyHandle: 'c2',
     });
@@ -98,12 +141,12 @@ describe('Get job by id', () => {
 
 describe('Update job by id', () => {
   test('works with valid id', async () => {
-    const updateData = { salary: 200 };
+    const updateData = { salary: 300 };
     const job = await Job.updateJob(2, updateData);
     expect(job).toEqual({
       id: 2,
       title: 'J2',
-      salary: 200,
+      salary: 300,
       equity: '0.085',
       companyHandle: 'c2',
     });
