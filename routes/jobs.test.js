@@ -78,3 +78,56 @@ describe('POST /jobs', () => {
     expect(resp.statusCode).toEqual(400);
   });
 });
+
+describe('GET /jobs', () => {
+  test('works for anon user', async () => {
+    const response = await request(app).get('/jobs');
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 1,
+          title: 'J1',
+          salary: 100,
+          equity: '0',
+          companyHandle: 'c1',
+        },
+        {
+          id: 2,
+          title: 'J2',
+          salary: 100,
+          equity: '0.085',
+          companyHandle: 'c2',
+        },
+        {
+          id: 3,
+          title: 'J3',
+          salary: 100,
+          equity: '0',
+          companyHandle: 'c1',
+        },
+      ],
+    });
+  });
+});
+
+/************************************** GET /jobs/:id */
+
+describe('GET /jobs/:id', () => {
+  test('works for any user', async () => {
+    const response = await request(app).get(`/jobs/1`);
+    expect(response.body).toEqual({
+      job: {
+        id: 1,
+        title: 'J1',
+        salary: 100,
+        equity: '0',
+        companyHandle: 'c1',
+      },
+    });
+  });
+
+  test('job not found with given id', async () => {
+    const response = await request(app).get(`/jobs/200`);
+    expect(response.statusCode).toEqual(404);
+  });
+});
