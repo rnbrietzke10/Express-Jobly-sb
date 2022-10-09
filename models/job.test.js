@@ -161,3 +161,21 @@ describe('Update job by id', () => {
     }
   });
 });
+
+/************************************** delete */
+
+describe('delete', () => {
+  test('works', async () => {
+    await Job.deleteJob(1);
+    const res = await db.query("SELECT * FROM jobs WHERE id='1'");
+    expect(res.rows.length).toEqual(0);
+  });
+  test('job not found with given id', async function () {
+    try {
+      await Job.deleteJob(5050);
+      fail();
+    } catch (err) {
+      expect(err instanceof NotFoundError).toBeTruthy();
+    }
+  });
+});
