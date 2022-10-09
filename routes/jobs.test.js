@@ -81,7 +81,7 @@ describe('POST /jobs', () => {
 });
 
 describe('GET /jobs', () => {
-  test('works for anon user', async () => {
+  test('works for any user no filter', async () => {
     const response = await request(app).get('/jobs');
     expect(response.body).toEqual({
       jobs: [
@@ -105,6 +105,56 @@ describe('GET /jobs', () => {
           salary: 100,
           equity: '0',
           companyHandle: 'c1',
+        },
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 5,
+          title: 'JJ4',
+          salary: 300,
+          equity: '0',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
+        },
+      ],
+    });
+  });
+
+  test('works for any user with title filter', async () => {
+    const response = await request(app).get('/jobs?title=jj');
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 5,
+          title: 'JJ4',
+          salary: 300,
+          equity: '0',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
         },
       ],
     });

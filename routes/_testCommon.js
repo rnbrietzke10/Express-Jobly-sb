@@ -61,6 +61,27 @@ async function commonBeforeAll() {
     companyHandle: 'c1',
   });
 
+  await Job.create({
+    title: 'JJ3',
+    salary: 200,
+    equity: 0.5,
+    companyHandle: 'c3',
+  });
+
+  await Job.create({
+    title: 'JJ4',
+    salary: 300,
+    equity: 0.0,
+    companyHandle: 'c3',
+  });
+
+  await Job.create({
+    title: 'JJ5',
+    salary: 300,
+    equity: 0.2,
+    companyHandle: 'c3',
+  });
+
   await User.register({
     username: 'u1',
     firstName: 'U1F',
