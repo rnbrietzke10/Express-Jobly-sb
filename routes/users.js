@@ -102,6 +102,12 @@ router.get('/:username', ensureLoggedIn, async function (req, res, next) {
 
 router.patch('/:username', ensureLoggedIn, async function (req, res, next) {
   try {
+    if (
+      req.params.username !== res.locals.user.username &&
+      !res.locals.user.isAdmin
+    ) {
+      throw new UnauthorizedError();
+    }
     const validator = jsonschema.validate(req.body, userUpdateSchema);
     if (!validator.valid) {
       const errs = validator.errors.map(e => e.stack);
@@ -122,6 +128,12 @@ router.patch('/:username', ensureLoggedIn, async function (req, res, next) {
 
 router.delete('/:username', ensureLoggedIn, async function (req, res, next) {
   try {
+    if (
+      req.params.username !== res.locals.user.username &&
+      !res.locals.user.isAdmin
+    ) {
+      throw new UnauthorizedError();
+    }
     await User.remove(req.params.username);
     return res.json({ deleted: req.params.username });
   } catch (err) {
