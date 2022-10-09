@@ -39,6 +39,8 @@ describe('create', function () {
   });
 });
 
+/************************************** get jobs */
+
 describe('Get all Jobs', () => {
   test('get all jobs function works', async () => {
     const jobs = await Job.getAllJobs();
@@ -65,5 +67,20 @@ describe('Get all Jobs', () => {
         companyHandle: 'c1',
       },
     ]);
+  });
+});
+
+/***********************get by id */
+
+describe('Get job by id', () => {
+  test('works with valid id', async () => {
+    const job = await Job.getJob(2);
+    expect(job).toEqual({
+      id: 2,
+      title: 'J2',
+      salary: 100,
+      equity: '0.085',
+      companyHandle: 'c2',
+    });
   });
 });
