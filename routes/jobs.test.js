@@ -159,6 +159,109 @@ describe('GET /jobs', () => {
       ],
     });
   });
+
+  test('works for any user filter by minSalary', async () => {
+    const response = await request(app).get('/jobs?minSalary=200');
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 5,
+          title: 'JJ4',
+          salary: 300,
+          equity: '0',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
+        },
+      ],
+    });
+  });
+
+  test('works for any user filter by equity', async () => {
+    const response = await request(app).get('/jobs?hasEquity=true');
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 2,
+          title: 'J2',
+          salary: 100,
+          equity: '0.085',
+          companyHandle: 'c2',
+        },
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
+        },
+      ],
+    });
+  });
+  test('works for any user filter by minSalary and equity ', async () => {
+    const response = await request(app).get(
+      '/jobs?minSalary=200&hasEquity=true'
+    );
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
+        },
+      ],
+    });
+  });
+
+  test('works for any user filter by title and equity ', async () => {
+    const response = await request(app).get('/jobs?title=jj&hasEquity=true');
+    expect(response.body).toEqual({
+      jobs: [
+        {
+          id: 4,
+          title: 'JJ3',
+          salary: 200,
+          equity: '0.5',
+          companyHandle: 'c3',
+        },
+        {
+          id: 6,
+          title: 'JJ5',
+          salary: 300,
+          equity: '0.2',
+          companyHandle: 'c3',
+        },
+      ],
+    });
+  });
 });
 
 /************************************** GET /jobs/:id */
