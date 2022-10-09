@@ -134,11 +134,21 @@ class User {
       [username]
     );
 
+    const jobsResults = await db.query(
+      `SELECT job_id AS "jobId" FROM applications WHERE username=$1`,
+      [username]
+    );
+
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
+    console.log(jobsResults.rows);
 
-    return user;
+    if (jobsResults.rows.length !== 0) {
+      return { ...user, jobs: jobsResults.rows };
+    } else {
+      return user;
+    }
   }
 
   /** Update user data with `data`.

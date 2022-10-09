@@ -92,9 +92,12 @@ class Company {
     const company = companyRes.rows[0];
 
     if (!company) throw new NotFoundError(`No company: ${handle}`);
-    // { ...companyRes.rows[0], jobs: jobs.rows }
 
-    return { ...company, jobs: jobs.rows };
+    if (jobs.rows.length !== 0) {
+      return { ...company, jobs: jobs.rows };
+    } else {
+      return company;
+    }
   }
 
   /** Update company data with `data`.
