@@ -175,3 +175,32 @@ describe('PATCH /jobs/:id', () => {
     expect(response.statusCode).toEqual(404);
   });
 });
+
+/************************************** DELETE /jobs/:id */
+
+describe('DELETE /jobs/:id', () => {
+  test('works for isAdmin', async () => {
+    const response = await request(app)
+      .delete(`/jobs/1`)
+      .set('authorization', `Bearer ${u4Token}`);
+    expect(response.body).toEqual({ deleted: '1' });
+  });
+
+  test('unauthorized for regular user', async () => {
+    const response = await request(app)
+      .delete(`/jobs/1`)
+      .set('authorization', `Bearer ${u1Token}`);
+    expect(response.statusCode).toEqual(401);
+  });
+  test('unauthorized for anonymous user', async () => {
+    const response = await request(app).delete(`/jobs/1`);
+    expect(response.statusCode).toEqual(401);
+  });
+
+  test('job not found with given id', async () => {
+    const response = await request(app)
+      .delete(`/jobs/200`)
+      .set('authorization', `Bearer ${u4Token}`);
+    expect(response.statusCode).toEqual(404);
+  });
+});
