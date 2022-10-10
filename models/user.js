@@ -133,7 +133,7 @@ class User {
            WHERE username = $1`,
       [username]
     );
-
+    // Get appiled jobs based on username
     const jobsResults = await db.query(
       `SELECT job_id AS "jobId" FROM applications WHERE username=$1`,
       [username]
@@ -142,7 +142,7 @@ class User {
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
-
+    // If user has applied to jobs return user with array of jobIds
     if (jobsResults.rows.length !== 0) {
       const appliedJobs = jobsResults.rows.map(({ jobId }) => jobId);
       return { ...user, jobs: appliedJobs };
@@ -211,6 +211,8 @@ class User {
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
+
+  /** User applies to job by id, returns jobId  */
 
   static async apply(username, jobId) {
     const job = await db.query(`SELECT id FROM jobs WHERE id = $1`, [jobId]);
