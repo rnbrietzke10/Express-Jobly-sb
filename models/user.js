@@ -142,10 +142,10 @@ class User {
     const user = userRes.rows[0];
 
     if (!user) throw new NotFoundError(`No user: ${username}`);
-    console.log(jobsResults.rows);
 
     if (jobsResults.rows.length !== 0) {
-      return { ...user, jobs: jobsResults.rows };
+      const appliedJobs = jobsResults.rows.map(({ jobId }) => jobId);
+      return { ...user, jobs: appliedJobs };
     } else {
       return user;
     }
