@@ -97,7 +97,7 @@ describe('GET /jobs', () => {
           title: 'J2',
           salary: 100,
           equity: '0.085',
-          companyHandle: 'c2',
+          companyHandle: 'c1',
         },
         {
           id: 3,
@@ -198,7 +198,7 @@ describe('GET /jobs', () => {
           title: 'J2',
           salary: 100,
           equity: '0.085',
-          companyHandle: 'c2',
+          companyHandle: 'c1',
         },
         {
           id: 4,
