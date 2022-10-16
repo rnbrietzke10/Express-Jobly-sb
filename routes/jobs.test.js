@@ -2,9 +2,7 @@
 
 const request = require('supertest');
 
-const db = require('../db.js');
 const app = require('../app');
-const Job = require('../models/job');
 
 const {
   commonBeforeAll,
@@ -15,7 +13,6 @@ const {
   u2Token,
   u4Token,
 } = require('./_testCommon');
-const { resource } = require('../app');
 
 beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);

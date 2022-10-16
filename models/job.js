@@ -2,11 +2,7 @@
 
 const db = require('../db');
 
-const {
-  BadRequestError,
-  NotFoundError,
-  ExpressError,
-} = require('../expressError');
+const { NotFoundError } = require('../expressError');
 
 const { sqlForPartialUpdate } = require('../helpers/sql');
 
@@ -27,9 +23,7 @@ class Jobs {
       [title, salary, equity, companyHandle]
     );
 
-    const job = results.rows[0];
-
-    return job;
+    return results.rows[0];
   }
 
   /**
